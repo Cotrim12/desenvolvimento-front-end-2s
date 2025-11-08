@@ -15,11 +15,45 @@
       align-items: center;
       justify-content: center;
       text-align: center;
+      position: relative;
     }
-    .tituloDs { color: #00ff66; font-weight: bold; font-size: 24px; margin-bottom: 20px; }
+    .tituloDs { 
+      color: #00ff66; 
+      font-weight: bold; 
+      font-size: 24px; 
+      margin-bottom: 20px; 
+    }
+    .social-icon {
+      width: 35px;
+      transition: transform 0.2s;
+    }
+    .social-icon:hover {
+      transform: scale(1.1);
+    }
+    .btn-email {
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+    }
+    .btn-voltar {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background-color: transparent;
+      border: none;
+      color: white;
+      font-size: 20px;
+      text-decoration: none;
+    }
+    .btn-voltar:hover {
+      color: #00ff66;
+    }
   </style>
 </head>
 <body>
+  <a href="page3.html" class="btn-voltar">← Voltar</a>
+
   <div class="tituloDs">Ds</div>
   <img src="img/safezinho.png" alt="Safezinho" class="img-fluid mb-3" style="max-width: 200px;">
   <h2>Faça seu login e<br>seja amigo do <span style="color:#00ff66;">Safezinho!</span></h2>
@@ -31,11 +65,11 @@
   <p class="text-secondary mt-3 mb-1">ou</p>
 
   <div class="d-flex justify-content-center gap-3">
-    <img src="img/google.png" alt="Google" style="width:35px;">
-    <img src="img/facebook.png" alt="Facebook" style="width:35px;">
-    <img src="img/email.png" alt="Email" style="width:35px;">
+    <img src="img/google.png" alt="Google" class="social-icon">
+    <img src="img/facebook.png" alt="Facebook" class="social-icon">
+    <a href="page5.html" class="btn-email">
+      <img src="img/email.png" alt="Email" class="social-icon">
+    </a>
   </div>
-
-  <a href="page3.html" class="btn btn-secondary mt-4 px-4">Voltar</a>
 </body>
 </html>
