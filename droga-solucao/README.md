@@ -56,7 +56,7 @@ Cada página foi feita com navegação simples através de links (`<a href="..."
 
 Felippe Cotrim da Silva
 Henrique Souto de Almeida
-Lucas Alexandre
+Lucas Alexandre Gonçalves de Vasconcellos
 
 Desenvolvido como parte do protótipo visual e funcional do aplicativo **Droga Solução**.
 
