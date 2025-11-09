@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detalhes do Produto - Droga Solução</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    body {
+      background-color: #111;
+      color: #fff;
+      font-family: 'Poppins', sans-serif;
+      padding: 20px;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .container img {
+      width: 200px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+
+    .voltar {
+      position: absolute;
+      left: 15px;
+      top: 15px;
+      color: #00ff7f;
+      background: none;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .preco {
+      font-size: 22px;
+      font-weight: bold;
+      color: #00ff7f;
+      margin-top: 10px;
+    }
+
+    .btn-carrinho {
+      background-color: #00c853;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 25px;
+      font-size: 16px;
+      margin-top: 15px;
+      cursor: pointer;
+    }
+
+    .btn-carrinho:hover {
+      background-color: #00e676;
+    }
+
+    .avaliacoes {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      font-size: 14px;
+      margin-bottom: 10px;
+      color: #ccc;
+    }
+  </style>
+</head>
+<body>
+  <button class="voltar" onclick="history.back()">← Voltar</button>
+
+  <div class="container" id="produto-container">
+    <p>Carregando produto...</p>
+  </div>
+
+  <script>
+    // Obtém o ID do produto da URL (?id=)
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
+
+    // Caso você use um arquivo JS com produtos, pode buscar lá também.
+    // Aqui, o código pega os dados salvos no localStorage (ou cria um genérico)
+    const produtosSalvos = JSON.parse(localStorage.getItem("produtos")) || [];
+
+    // Tenta achar o produto pelo ID
+    const produto = produtosSalvos.find(p => p.id == id);
+
+    const container = document.getElementById("produto-container");
+
+    if (produto) {
+      container.innerHTML = `
+        <img src="${produto.imagem}" alt="${produto.nome}">
+        <h2>${produto.nome}</h2>
+        <div class="avaliacoes">
+          <span>⭐ ${produto.avaliacao || "4.5"}</span>
+          <span>🕒 ${produto.tempo || "20 mins"}</span>
+        </div>
+        <p>${produto.descricao || "Sem descrição disponível."}</p>
+        <p class="preco">R$${produto.preco ? produto.preco.toFixed(2) : "0,00"}</p>
+        <button class="btn-carrinho" onclick="adicionarAoCarrinho()">Adicionar ao carrinho</button>
+      `;
+    } else {
+      container.innerHTML = `
+        <h2>Produto não encontrado</h2>
+        <p>O item pode ter sido removido ou não existe.</p>
+      `;
+    }
+
+    function adicionarAoCarrinho() {
+      alert("Produto adicionado ao carrinho!");
+    }
+  </script>
+</body>
+</html>

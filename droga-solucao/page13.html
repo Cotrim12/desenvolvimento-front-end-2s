@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Droga Solução - Home</title>
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+  <style>
+    body {
+      background-color: #0f0f0f;
+      color: white;
+      font-family: "Inter", sans-serif;
+    }
+    .search-bar {
+      background-color: #1c1c1c;
+      border: none;
+      color: white;
+    }
+    .banner {
+      background-color: #00b140;
+      border-radius: 12px;
+      padding: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: white;
+    }
+    .banner img {
+      height: 60px;
+    }
+    .filter-btn {
+      background-color: transparent;
+      border: none;
+      color: white;
+      font-weight: 500;
+      margin-right: 10px;
+    }
+    .filter-btn.active {
+      color: #00b140;
+      border-bottom: 2px solid #00b140;
+    }
+    .product-card {
+      background-color: #1a1a1a;
+      border-radius: 12px;
+      padding: 10px;
+      text-align: center;
+    }
+    .product-card img {
+      width: 100%;
+      height: 120px;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+    .product-price {
+      color: #00b140;
+      font-weight: bold;
+    }
+    .btn-add {
+      background-color: #00b140;
+      border: none;
+      color: white;
+      border-radius: 50%;
+      width: 35px;
+      height: 35px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+    .bottom-nav {
+      background-color: #1a1a1a;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 0;
+      border-top: 1px solid #2d2d2d;
+    }
+    .bottom-nav i {
+      color: white;
+      font-size: 20px;
+    }
+    .bottom-nav i.active {
+      color: #00b140;
+    }
+  </style>
+</head>
+<body class="pb-5">
+  <div class="container py-3">
+    <!-- Cabeçalho -->
+    <div class="d-flex justify-content-between align-items-center mb-2">
+      <div>
+        <h6 class="mb-0 text-secondary">Olá João 👋</h6>
+        <p class="mb-0" style="font-weight: 600;">O que está procurando?</p>
+      </div>
+      <img src="img/perfil.png" alt="Perfil" class="rounded-circle" width="35" height="35" />
+    </div>
+
+    <!-- Barra de pesquisa -->
+    <input
+      type="text"
+      id="searchInput"
+      class="form-control search-bar mb-3"
+      placeholder="🔍 Pesquise..."
+    />
+
+    <!-- Banner -->
+    <div class="banner mb-3">
+      <div>
+        <h6 class="mb-1 fw-bold">15% OFF nos Medicamentos!</h6>
+        <button class="btn btn-light btn-sm rounded-pill">Compre já</button>
+      </div>
+      <img src="img/safezinho.png" alt="Mascote" />
+    </div>
+
+    <!-- Filtros -->
+    <div class="d-flex mb-3">
+      <button class="filter-btn active">Todos</button>
+      <button class="filter-btn">Manipulados</button>
+      <button class="filter-btn">Diuréticos</button>
+    </div>
+
+    <!-- Lista de produtos -->
+    <div class="row" id="productList"></div>
+  </div>
+
+  <!-- Barra de navegação inferior -->
+  <div class="bottom-nav">
+    <i class="bi bi-house-door-fill active"></i>
+    <i class="bi bi-cart-fill"></i>
+    <i class="bi bi-heart-fill"></i>
+    <i class="bi bi-person-fill"></i>
+  </div>
+
+  <!-- Ícones Bootstrap -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.js"></script>
+
+ <script>
+ // === PRODUTOS: edite/adicione aqui quando quiser ===
+const produtos = [
+  {
+    id: 1,
+    nome: "Camisinha SKYN",
+    preco: 23.99,
+    imagem: "img/skyn.png",
+    descricao: "Camisinha SKYN - conforto e sensibilidade.",
+    categoria: "todos",
+    avaliacao: 4.8,
+    tempo: "20mins"
+  },
+  {
+    id: 2,
+    nome: "Gardenal pediátrico",
+    preco: 40.30,
+    imagem: "img/gardenal.png",
+    descricao: "Gardenal - anticonvulsivante.",
+    categoria: "todos",
+    avaliacao: 4.5,
+    tempo: "20mins"
+  },
+  {
+    id: 3,
+    nome: "Paracetamol 750mg",
+    preco: 19.20,
+    imagem: "img/paracetamol.png",
+    descricao: "Alívio de dor e febre.",
+    categoria: "todos",
+    avaliacao: 4.5,
+    tempo: "20mins"
+  },
+  {
+    id: 4,
+    nome: "Novo Produto",
+    preco: 15.50,
+    imagem: "img/novo_produto.png",
+    descricao: "Descrição do novo produto.",
+    categoria: "manipulados",
+    avaliacao: 4.7,
+    tempo: "15mins"
+  }
+];
+
+  const lista = document.getElementById("productList");
+  const input = document.getElementById("searchInput");
+
+  function exibirProdutos(filtro = "") {
+    lista.innerHTML = "";
+    const produtosFiltrados = produtos.filter(p =>
+      p.nome.toLowerCase().includes(filtro.toLowerCase())
+    );
+
+    produtosFiltrados.forEach(p => {
+      const card = document.createElement("div");
+      card.classList.add("col-6", "mb-3");
+      card.innerHTML = `
+        <div class="product-card" onclick="abrirProduto(${p.id})" style="cursor:pointer;">
+          <img src="${p.imagem}" alt="${p.nome}" />
+          <h6 class="mt-2 mb-1">${p.nome}</h6>
+          <p class="product-price mb-1">${p.preco}</p>
+          <button class="btn-add">+</button>
+        </div>
+      `;
+      lista.appendChild(card);
+    });
+  }
+
+  function abrirProduto(id) {
+    localStorage.setItem("produtoSelecionado", JSON.stringify(produtos.find(p => p.id === id)));
+    window.location.href = "page14.html";
+  }
+
+  input.addEventListener("input", () => exibirProdutos(input.value));
+  exibirProdutos(); // mostra tudo no início
+</script>
+
+</body>
+</html>
