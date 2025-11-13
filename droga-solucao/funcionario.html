@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Área do Funcionário - Droga Solução</title>
+  <style>
+    :root {
+      --green: #00b140;
+      --bg: #101010;
+      --card: #1a1a1a;
+      --gray: #ccc;
+    }
+
+    body {
+      font-family: Inter, system-ui, Arial;
+      background: var(--bg);
+      color: #fff;
+      margin: 0;
+      min-height: 100vh;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--green);
+      color: #000;
+      padding: 14px 20px;
+    }
+
+    header h1 {
+      font-size: 20px;
+      margin: 0;
+    }
+
+    header button {
+      background: #000;
+      color: var(--green);
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .tabs {
+      display: flex;
+      justify-content: space-around;
+      background: #141414;
+      border-bottom: 2px solid #222;
+    }
+
+    .tabs button {
+      flex: 1;
+      background: none;
+      border: none;
+      color: #999;
+      padding: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .tabs button.active {
+      color: var(--green);
+      border-bottom: 2px solid var(--green);
+    }
+
+    .tab-content {
+      display: none;
+      padding: 20px;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 10px;
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+
+    .btn {
+      background: var(--green);
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 16px;
+      cursor: pointer;
+      font-weight: 600;
+      margin-top: 10px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      color: #fff;
+      font-size: 14px;
+    }
+
+    table th, table td {
+      padding: 8px;
+      border-bottom: 1px solid #333;
+    }
+
+    table th {
+      color: var(--green);
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Área do Funcionário</h1>
+    <button onclick="logout()">Sair</button>
+  </header>
+
+  <div class="tabs">
+    <button class="active" data-tab="receitas">Receitas</button>
+    <button data-tab="estoque">Estoque</button>
+    <button data-tab="pedidos">Pedidos</button>
+  </div>
+
+  <div id="receitas" class="tab-content active">
+    <h2>Receitas enviadas</h2>
+    <div id="listaReceitas"></div>
+  </div>
+
+  <div id="estoque" class="tab-content">
+    <h2>Controle de estoque</h2>
+    <table>
+      <thead>
+        <tr><th>Produto</th><th>Quantidade</th><th>Status</th></tr>
+      </thead>
+      <tbody id="estoqueTabela"></tbody>
+    </table>
+  </div>
+
+  <div id="pedidos" class="tab-content">
+    <h2>Pedidos recentes</h2>
+    <table>
+      <thead>
+        <tr><th>Cliente</th><th>Produto</th><th>Status</th></tr>
+      </thead>
+      <tbody id="pedidosTabela"></tbody>
+    </table>
+  </div>
+
+  <script>
+    const receitas = [
+      { id: 1, cliente: "João Santos", data: "12/11/2025", descricao: "Amoxicilina 500mg" },
+      { id: 2, cliente: "Maria Oliveira", data: "12/11/2025", descricao: "Dipirona 1g" }
+    ];
+
+    const estoque = [
+      { produto: "Paracetamol 750mg", quantidade: 20 },
+      { produto: "Camisinha SKYN", quantidade: 5 },
+      { produto: "Vitamina C 500mg", quantidade: 0 }
+    ];
+
+    const pedidos = [
+      { cliente: "José Lima", produto: "Paracetamol 750mg", status: "Entregue" },
+      { cliente: "Ana Costa", produto: "Ibuprofeno 400mg", status: "A caminho" }
+    ];
+
+    const listaReceitas = document.getElementById("listaReceitas");
+    const estoqueTabela = document.getElementById("estoqueTabela");
+    const pedidosTabela = document.getElementById("pedidosTabela");
+
+    receitas.forEach(r => {
+      const div = document.createElement("div");
+      div.className = "card";
+      div.innerHTML = `<p><b>Cliente:</b> ${r.cliente}</p>
+                       <p><b>Data:</b> ${r.data}</p>
+                       <p><b>Receita:</b> ${r.descricao}</p>`;
+      listaReceitas.appendChild(div);
+    });
+
+    estoque.forEach(e => {
+      const status = e.quantidade > 5 ? "Disponível" : e.quantidade > 0 ? "Baixo estoque" : "Esgotado";
+      const tr = document.createElement("tr");
+      tr.innerHTML = `<td>${e.produto}</td><td>${e.quantidade}</td><td>${status}</td>`;
+      estoqueTabela.appendChild(tr);
+    });
+
+    pedidos.forEach(p => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `<td>${p.cliente}</td><td>${p.produto}</td><td>${p.status}</td>`;
+      pedidosTabela.appendChild(tr);
+    });
+
+    // Tabs
+    const tabs = document.querySelectorAll(".tabs button");
+    const contents = document.querySelectorAll(".tab-content");
+    tabs.forEach(tab => {
+      tab.addEventListener("click", () => {
+        tabs.forEach(t => t.classList.remove("active"));
+        contents.forEach(c => c.classList.remove("active"));
+        tab.classList.add("active");
+        document.getElementById(tab.dataset.tab).classList.add("active");
+      });
+    });
+
+    function logout() {
+      window.location.href = "page4.html";
+    }
+  </script>
+</body>
+</html>

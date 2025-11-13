@@ -3,220 +3,199 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Droga Solução - Home</title>
-  <link
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-    rel="stylesheet"
-  />
+  <title>Farmácia - Home</title>
   <style>
     body {
-      background-color: #0f0f0f;
+      background-color: #111;
       color: white;
-      font-family: "Inter", sans-serif;
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
     }
-    .search-bar {
-      background-color: #1c1c1c;
-      border: none;
-      color: white;
+
+    header {
+      padding: 10px 20px;
     }
-    .banner {
-      background-color: #00b140;
+
+    .banner-container {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      height: 200px;
       border-radius: 12px;
-      padding: 15px;
+      margin-top: 10px;
+    }
+
+    .banner-slide {
       display: flex;
-      justify-content: space-between;
+      transition: transform 0.6s ease-in-out;
+      width: 400%;
+    }
+
+    .banner {
+      min-width: 100%;
+      height: 200px;
+      display: flex;
+      justify-content: center;
       align-items: center;
-      color: white;
     }
+
     .banner img {
-      height: 60px;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
-    .filter-btn {
-      background-color: transparent;
+
+    .promo-indicators {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 6px;
+    }
+
+    .indicator {
+      width: 10px;
+      height: 10px;
+      background-color: #fff5;
+      border-radius: 50%;
+      transition: background 0.3s;
+    }
+
+    .indicator.active {
+      background-color: #0f0;
+    }
+
+    .search-container {
+      margin: 15px 20px;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
       border: none;
+      border-radius: 8px;
+      background-color: #222;
       color: white;
-      font-weight: 500;
-      margin-right: 10px;
     }
-    .filter-btn.active {
-      color: #00b140;
-      border-bottom: 2px solid #00b140;
+
+    .produtos {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 15px;
+      padding: 20px;
     }
-    .product-card {
+
+    .produto {
       background-color: #1a1a1a;
-      border-radius: 12px;
+      border-radius: 10px;
       padding: 10px;
       text-align: center;
+      cursor: pointer;
+      transition: transform 0.2s ease;
     }
-    .product-card img {
+
+    .produto:hover {
+      transform: scale(1.05);
+    }
+
+    .produto img {
       width: 100%;
-      height: 120px;
-      object-fit: contain;
       border-radius: 8px;
     }
-    .product-price {
-      color: #00b140;
-      font-weight: bold;
+
+    .produto h3 {
+      font-size: 16px;
+      margin: 10px 0 5px 0;
     }
-    .btn-add {
-      background-color: #00b140;
+
+    .produto p {
+      color: #bbb;
+    }
+
+    .produto button {
+      background-color: #00b34a;
+      color: white;
       border: none;
-      color: white;
-      border-radius: 50%;
-      width: 35px;
-      height: 35px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px;
-    }
-    .bottom-nav {
-      background-color: #1a1a1a;
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      display: flex;
-      justify-content: space-around;
-      padding: 10px 0;
-      border-top: 1px solid #2d2d2d;
-    }
-    .bottom-nav i {
-      color: white;
-      font-size: 20px;
-    }
-    .bottom-nav i.active {
-      color: #00b140;
+      border-radius: 8px;
+      padding: 8px 12px;
+      cursor: pointer;
+      font-weight: bold;
     }
   </style>
 </head>
-<body class="pb-5">
-  <div class="container py-3">
-    <!-- Cabeçalho -->
-    <div class="d-flex justify-content-between align-items-center mb-2">
-      <div>
-        <h6 class="mb-0 text-secondary">Olá João 👋</h6>
-        <p class="mb-0" style="font-weight: 600;">O que está procurando?</p>
-      </div>
-      <img src="img/perfil.png" alt="Perfil" class="rounded-circle" width="35" height="35" />
+<body>
+
+  <header>
+    <h2>Olá, João 👋</h2>
+    <p>O que está procurando?</p>
+    <div class="search-container">
+      <input type="text" placeholder="🔍 Pesquise..." />
     </div>
+  </header>
 
-    <!-- Barra de pesquisa -->
-    <input
-      type="text"
-      id="searchInput"
-      class="form-control search-bar mb-3"
-      placeholder="🔍 Pesquise..."
-    />
-
-    <!-- Banner -->
-    <div class="banner mb-3">
-      <div>
-        <h6 class="mb-1 fw-bold">15% OFF nos Medicamentos!</h6>
-        <button class="btn btn-light btn-sm rounded-pill">Compre já</button>
-      </div>
-      <img src="img/safezinho.png" alt="Mascote" />
+  <!-- Banner de promoções -->
+  <div class="banner-container">
+    <div class="banner-slide" id="bannerSlide">
+      <div class="banner"><img src="promo1.jpg" alt="Promoção 1"></div>
+      <div class="banner"><img src="promo2.jpg" alt="Promoção 2"></div>
+      <div class="banner"><img src="promo3.jpg" alt="Promoção 3"></div>
+      <div class="banner"><img src="promo4.jpg" alt="Promoção 4"></div>
     </div>
-
-    <!-- Filtros -->
-    <div class="d-flex mb-3">
-      <button class="filter-btn active">Todos</button>
-      <button class="filter-btn">Manipulados</button>
-      <button class="filter-btn">Diuréticos</button>
+    <div class="promo-indicators">
+      <div class="indicator active"></div>
+      <div class="indicator"></div>
+      <div class="indicator"></div>
+      <div class="indicator"></div>
     </div>
-
-    <!-- Lista de produtos -->
-    <div class="row" id="productList"></div>
   </div>
 
-  <!-- Barra de navegação inferior -->
-  <div class="bottom-nav">
-    <i class="bi bi-house-door-fill active"></i>
-    <i class="bi bi-cart-fill"></i>
-    <i class="bi bi-heart-fill"></i>
-    <i class="bi bi-person-fill"></i>
+  <!-- Lista de produtos -->
+  <div class="produtos" id="listaProdutos">
+    <!-- Produtos vão aqui -->
   </div>
 
-  <!-- Ícones Bootstrap -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.js"></script>
+  <script>
+    // Carrossel automático
+    let index = 0;
+    const banners = document.getElementById('bannerSlide');
+    const indicators = document.querySelectorAll('.indicator');
 
- <script>
- // === PRODUTOS: edite/adicione aqui quando quiser ===
-const produtos = [
-  {
-    id: 1,
-    nome: "Camisinha SKYN",
-    preco: 23.99,
-    imagem: "img/skyn.png",
-    descricao: "Camisinha SKYN - conforto e sensibilidade.",
-    categoria: "todos",
-    avaliacao: 4.8,
-    tempo: "20mins"
-  },
-  {
-    id: 2,
-    nome: "Gardenal pediátrico",
-    preco: 40.30,
-    imagem: "img/gardenal.png",
-    descricao: "Gardenal - anticonvulsivante.",
-    categoria: "todos",
-    avaliacao: 4.5,
-    tempo: "20mins"
-  },
-  {
-    id: 3,
-    nome: "Paracetamol 750mg",
-    preco: 19.20,
-    imagem: "img/paracetamol.png",
-    descricao: "Alívio de dor e febre.",
-    categoria: "todos",
-    avaliacao: 4.5,
-    tempo: "20mins"
-  },
-  {
-    id: 4,
-    nome: "Novo Produto",
-    preco: 15.50,
-    imagem: "img/novo_produto.png",
-    descricao: "Descrição do novo produto.",
-    categoria: "manipulados",
-    avaliacao: 4.7,
-    tempo: "15mins"
-  }
-];
+    function mudarBanner() {
+      index = (index + 1) % 4;
+      banners.style.transform = `translateX(${-index * 100}%)`;
+      indicators.forEach((dot, i) => {
+        dot.classList.toggle('active', i === index);
+      });
+    }
+    setInterval(mudarBanner, 4000); // troca a cada 4s
 
-  const lista = document.getElementById("productList");
-  const input = document.getElementById("searchInput");
+    // Produtos (exemplo)
+    const produtos = [
+      { id: 1, nome: "Camisinha SKYN", preco: 23.99, imagem: "skyn.jpg" },
+      { id: 2, nome: "Gardenal", preco: 3.99, imagem: "gardenal.jpg" },
+      { id: 3, nome: "Paracetamol 750mg", preco: 5.49, imagem: "paracetamol.jpg" },
+      { id: 4, nome: "Dipirona 500mg", preco: 4.99, imagem: "dipirona.jpg" }
+    ];
 
-  function exibirProdutos(filtro = "") {
-    lista.innerHTML = "";
-    const produtosFiltrados = produtos.filter(p =>
-      p.nome.toLowerCase().includes(filtro.toLowerCase())
-    );
-
-    produtosFiltrados.forEach(p => {
-      const card = document.createElement("div");
-      card.classList.add("col-6", "mb-3");
-      card.innerHTML = `
-        <div class="product-card" onclick="abrirProduto(${p.id})" style="cursor:pointer;">
-          <img src="${p.imagem}" alt="${p.nome}" />
-          <h6 class="mt-2 mb-1">${p.nome}</h6>
-          <p class="product-price mb-1">${p.preco}</p>
-          <button class="btn-add">+</button>
-        </div>
+    const container = document.getElementById('listaProdutos');
+    produtos.forEach(prod => {
+      const div = document.createElement('div');
+      div.classList.add('produto');
+      div.innerHTML = `
+        <img src="${prod.imagem}" alt="${prod.nome}">
+        <h3>${prod.nome}</h3>
+        <p>R$${prod.preco.toFixed(2)}</p>
+        <button onclick="abrirProduto(${prod.id})">Ver mais</button>
       `;
-      lista.appendChild(card);
+      container.appendChild(div);
     });
-  }
 
-  function abrirProduto(id) {
-    localStorage.setItem("produtoSelecionado", JSON.stringify(produtos.find(p => p.id === id)));
-    window.location.href = "page14.html";
-  }
-
-  input.addEventListener("input", () => exibirProdutos(input.value));
-  exibirProdutos(); // mostra tudo no início
-</script>
+    function abrirProduto(id) {
+      window.location.href = "page14.html?id=" + id;
+    }
+  </script>
 
 </body>
 </html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Painel Entregador - Droga Solução</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>body{background:#0f0f0f;color:#fff;font-family:Inter;padding:16px} .card{background:#151515;border-radius:10px;padding:12px;margin-bottom:12px}</style>
+</head>
+<body>
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <a href="page4.html" style="color:#ccc;text-decoration:none">← Sair</a>
+    <h5>Painel do Entregador</h5>
+    <div></div>
+  </div>
+
+  <div class="card mb-3">
+    <div class="d-flex justify-content-between align-items-center">
+      <div>
+        <strong>Disponível para entregas</strong>
+      </div>
+      <div>
+        <button id="toggleAvail" class="btn btn-sm btn-outline-light">Ativar</button>
+      </div>
+    </div>
+  </div>
+
+  <h6>Carteira</h6>
+  <div id="wallet" class="card"></div>
+
+  <h6 class="mt-3">Entregas pendentes</h6>
+  <div id="deliveries"></div>
+
+  <h6 class="mt-3">Histórico</h6>
+  <div id="history"></div>
+
+<script>
+  const user = JSON.parse(localStorage.getItem('user')||'{}');
+  if(!user || user.role !== 'entregador'){ alert('Acesso negado. Faça login como entregador.'); window.location.href='page4.html'; }
+
+  // wallet and deliveries simulation
+  const walletDiv = document.getElementById('wallet');
+  const deliveriesDiv = document.getElementById('deliveries');
+  const historyDiv = document.getElementById('history');
+  const toggle = document.getElementById('toggleAvail');
+
+  let deliveries = JSON.parse(localStorage.getItem('deliveries')||'[]');
+  // sample delivery if empty
+  if(deliveries.length===0){
+    deliveries = [
+      {id:101, cliente:'João', endereco:'Rua A, 123', status:'pending', pay:10.5},
+      {id:102, cliente:'Maria', endereco:'Av B, 45', status:'pending', pay:8.0}
+    ];
+    localStorage.setItem('deliveries', JSON.stringify(deliveries));
+  }
+
+  function renderWallet(){
+    const w = user.wallet || 0;
+    walletDiv.innerHTML = `<div><strong>Saldo:</strong> R$ ${w.toFixed(2)}</div>
+      <div class="mt-2"><button class="btn btn-sm btn-success" onclick="withdraw()">Sacar</button></div>`;
+  }
+
+  function withdraw(){
+    const w = user.wallet || 0;
+    if(w <= 0){ alert('Saldo insuficiente'); return; }
+    const take = prompt('Quanto deseja sacar?', w.toFixed(2));
+    const val = Number(take);
+    if(val > 0 && val <= w){
+      user.wallet = +(w - val).toFixed(2);
+      localStorage.setItem('user', JSON.stringify(user));
+      alert('Saque solicitado: R$'+val.toFixed(2));
+      renderWallet();
+    }
+  }
+
+  function renderDeliveries(){
+    deliveriesDiv.innerHTML = '';
+    const pendentes = deliveries.filter(d=>d.status==='pending');
+    if(!pendentes.length) deliveriesDiv.innerHTML = '<div class="card">Sem entregas pendentes.</div>';
+    pendentes.forEach(d=>{
+      const el = document.createElement('div'); el.className='card';
+      el.innerHTML = `<div><strong>${d.cliente}</strong> - ${d.endereco}</div>
+        <div class="mt-2"><small>Pagamento: R$${d.pay.toFixed(2)}</small></div>
+        <div class="mt-2"><button class="btn btn-sm btn-success me-2" onclick="accept(${d.id})">Aceitar</button>
+        <button class="btn btn-sm btn-danger" onclick="decline(${d.id})">Recusar</button></div>`;
+      deliveriesDiv.appendChild(el);
+    });
+    // history
+    const done = deliveries.filter(d=>d.status==='done');
+    historyDiv.innerHTML = done.length? done.map(h=>`<div class="card">${h.cliente} - R$${h.pay.toFixed(2)}</div>`).join('') : '<div class="card">Sem histórico</div>';
+  }
+
+  function accept(id){
+    const d = deliveries.find(x=>x.id===id);
+    if(!d) return;
+    d.status = 'in-progress';
+    localStorage.setItem('deliveries', JSON.stringify(deliveries));
+    // simulate ETA calculations
+    const etaToStore = Math.floor(Math.random()*10)+3; // minutos até farmácia
+    const etaToClient = Math.floor(Math.random()*20)+10; // até cliente
+    alert(`Entrega aceita!\nETA até farmácia: ${etaToStore} min\nETA até cliente: ${etaToClient} min`);
+    // mark done after some time (simulation)
+    setTimeout(()=>{
+      d.status = 'done';
+      // add to wallet
+      user.wallet = +( (user.wallet||0) + d.pay ).toFixed(2);
+      localStorage.setItem('user', JSON.stringify(user));
+      localStorage.setItem('deliveries', JSON.stringify(deliveries));
+      renderWallet(); renderDeliveries();
+    }, 3000); // simula conclusão rápida
+    renderDeliveries();
+  }
+
+  function decline(id){ deliveries = deliveries.filter(x=>x.id!==id); localStorage.setItem('deliveries', JSON.stringify(deliveries)); renderDeliveries(); }
+
+  // availability toggle
+  let available = user.available || false;
+  function updateToggle(){ toggle.innerText = available ? 'Disponível' : 'Indisponível'; toggle.className = available? 'btn btn-sm btn-success' : 'btn btn-sm btn-outline-light'; }
+  toggle.addEventListener('click', ()=>{ available = !available; user.available = available; localStorage.setItem('user', JSON.stringify(user)); updateToggle(); });
+
+  renderWallet(); renderDeliveries(); updateToggle();
+</script>
+</body>
+</html>
