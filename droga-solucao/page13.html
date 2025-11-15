@@ -1,201 +1,274 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Farmácia - Home</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Droga Solução - Home</title>
+
   <style>
     body {
-      background-color: #111;
+      background: #0f0f0f;
       color: white;
-      font-family: 'Poppins', sans-serif;
       margin: 0;
-      padding: 0;
+      font-family: Arial, sans-serif;
+      padding-bottom: 40px;
     }
 
-    header {
-      padding: 10px 20px;
-    }
-
-    .banner-container {
-      position: relative;
-      overflow: hidden;
-      width: 100%;
-      height: 200px;
-      border-radius: 12px;
-      margin-top: 10px;
-    }
-
-    .banner-slide {
+    .header {
       display: flex;
-      transition: transform 0.6s ease-in-out;
-      width: 400%;
-    }
-
-    .banner {
-      min-width: 100%;
-      height: 200px;
-      display: flex;
-      justify-content: center;
+      justify-content: space-between;
       align-items: center;
+      padding: 15px;
+      background: #000;
+      position: sticky;
+      top: 0;
+      z-index: 10;
     }
 
-    .banner img {
+    .logo {
+      font-size: 22px;
+      font-weight: bold;
+      color: #00b140;
+    }
+
+    .search-container {
+      padding: 15px;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
+      background: #1a1a1a;
+      color: white;
+      font-size: 16px;
+    }
+
+    /* ----- CARROSSEL ----- */
+    .carousel-container {
+      width: 100%;
+      max-width: 430px;
+      height: 360px;
+      position: relative;
+      margin: 0 auto 25px auto;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .carousel-slide {
+      display: flex;
+      width: 300%;
+      height: 100%;
+      transition: transform 0.6s ease-in-out;
+    }
+
+    .carousel-slide img {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
 
-    .promo-indicators {
+    /* Setas */
+    .arrow {
       position: absolute;
-      bottom: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 6px;
-    }
-
-    .indicator {
-      width: 10px;
-      height: 10px;
-      background-color: #fff5;
-      border-radius: 50%;
-      transition: background 0.3s;
-    }
-
-    .indicator.active {
-      background-color: #0f0;
-    }
-
-    .search-container {
-      margin: 15px 20px;
-    }
-
-    input {
-      width: 100%;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 35px;
       padding: 10px;
-      border: none;
-      border-radius: 8px;
-      background-color: #222;
+      cursor: pointer;
       color: white;
+      font-weight: bold;
+      background: rgba(0,0,0,0.4);
+      border-radius: 50%;
+      user-select: none;
     }
 
-    .produtos {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 15px;
-      padding: 20px;
+    .arrow-left { left: 10px; }
+    .arrow-right { right: 10px; }
+
+    /* Produtos */
+    .produtos-container {
+      padding: 15px;
     }
 
     .produto {
-      background-color: #1a1a1a;
-      border-radius: 10px;
-      padding: 10px;
-      text-align: center;
+      background: #1a1a1a;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
       cursor: pointer;
-      transition: transform 0.2s ease;
-    }
-
-    .produto:hover {
-      transform: scale(1.05);
     }
 
     .produto img {
-      width: 100%;
+      width: 90px;
+      height: 90px;
+      object-fit: contain;
+      margin-right: 15px;
+      background: #fff;
       border-radius: 8px;
     }
 
     .produto h3 {
-      font-size: 16px;
-      margin: 10px 0 5px 0;
+      margin: 0;
+      font-size: 18px;
     }
 
     .produto p {
-      color: #bbb;
-    }
-
-    .produto button {
-      background-color: #00b34a;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      padding: 8px 12px;
-      cursor: pointer;
-      font-weight: bold;
+      margin: 5px 0 0 0;
+      color: #b3b3b3;
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <h2>Olá, João 👋</h2>
-    <p>O que está procurando?</p>
-    <div class="search-container">
-      <input type="text" placeholder="🔍 Pesquise..." />
-    </div>
-  </header>
-
-  <!-- Banner de promoções -->
-  <div class="banner-container">
-    <div class="banner-slide" id="bannerSlide">
-      <div class="banner"><img src="promo1.jpg" alt="Promoção 1"></div>
-      <div class="banner"><img src="promo2.jpg" alt="Promoção 2"></div>
-      <div class="banner"><img src="promo3.jpg" alt="Promoção 3"></div>
-      <div class="banner"><img src="promo4.jpg" alt="Promoção 4"></div>
-    </div>
-    <div class="promo-indicators">
-      <div class="indicator active"></div>
-      <div class="indicator"></div>
-      <div class="indicator"></div>
-      <div class="indicator"></div>
-    </div>
+  <!-- HEADER -->
+  <div class="header">
+    <span class="logo">Droga Solução</span>
+    <a href="carrinho.html" style="color:white; text-decoration:none; font-size:20px;">🛒</a>
   </div>
 
-  <!-- Lista de produtos -->
-  <div class="produtos" id="listaProdutos">
-    <!-- Produtos vão aqui -->
+  <!-- PESQUISA -->
+  <div class="search-container">
+    <input type="text" id="search" class="search-input" placeholder="Pesquisar remédio...">
   </div>
 
-  <script>
-    // Carrossel automático
-    let index = 0;
-    const banners = document.getElementById('bannerSlide');
-    const indicators = document.querySelectorAll('.indicator');
+  <!-- CARROSSEL -->
+  <div class="carousel-container">
+    <div class="carousel-slide" id="carousel">
+      <img src="img/banner1.png" alt="promo 1">
+      <img src="img/banner2.png" alt="promo 2">
+      <img src="img/banner3.png" alt="promo 3">
+    </div>
 
-    function mudarBanner() {
-      index = (index + 1) % 4;
-      banners.style.transform = `translateX(${-index * 100}%)`;
-      indicators.forEach((dot, i) => {
-        dot.classList.toggle('active', i === index);
-      });
-    }
-    setInterval(mudarBanner, 4000); // troca a cada 4s
+    <div class="arrow arrow-left" onclick="prevSlide()">❮</div>
+    <div class="arrow arrow-right" onclick="nextSlide()">❯</div>
+  </div>
 
-    // Produtos (exemplo)
-    const produtos = [
-      { id: 1, nome: "Camisinha SKYN", preco: 23.99, imagem: "skyn.jpg" },
-      { id: 2, nome: "Gardenal", preco: 3.99, imagem: "gardenal.jpg" },
-      { id: 3, nome: "Paracetamol 750mg", preco: 5.49, imagem: "paracetamol.jpg" },
-      { id: 4, nome: "Dipirona 500mg", preco: 4.99, imagem: "dipirona.jpg" }
-    ];
+  <!-- LISTA DE PRODUTOS -->
+  <div class="produtos-container" id="listaProdutos"></div>
 
-    const container = document.getElementById('listaProdutos');
-    produtos.forEach(prod => {
-      const div = document.createElement('div');
-      div.classList.add('produto');
-      div.innerHTML = `
-        <img src="${prod.imagem}" alt="${prod.nome}">
+ <script>
+/* ------------------ CARROSSEL ------------------ */
+let slideIndex = 0;
+const carousel = document.getElementById("carousel");
+const totalSlides = 3;
+
+function nextSlide() {
+  slideIndex = (slideIndex + 1) % totalSlides;
+  updateCarousel();
+}
+
+function prevSlide() {
+  slideIndex = (slideIndex - 1 + totalSlides) % totalSlides;
+  updateCarousel();
+}
+
+function updateCarousel() {
+  carousel.style.transform = `translateX(-${slideIndex * 100}%)`;
+}
+
+setInterval(nextSlide, 5000);
+
+/* ------------------ PRODUTOS (FORMATO CORRIGIDO!) ------------------ */
+
+const produtos = [
+  { 
+    id: 1,
+    nome: "Camisinha SKYN",
+    preco: 22.90,
+    imagem: "img/skyn.png",
+    descricao: "Preservativo SKYN original para proteção e conforto.",
+    avaliacao: 4.7,
+    tempo: "20 mins"
+  },
+  { 
+    id: 2,
+    nome: "Gardenal",
+    preco: 19.90,
+    imagem: "img/gardenal.png",
+    descricao: "Medicamento anticonvulsivante de uso controlado.",
+    avaliacao: 4.8,
+    tempo: "20 mins"
+  },
+  { 
+    id: 3,
+    nome: "Ibuprofeno",
+    preco: 35.50,
+    imagem: "img/ibuprofeno.png",
+    descricao: "Anti-inflamatório para dores e febre.",
+    avaliacao: 4.6,
+    tempo: "15 mins"
+  },
+  { 
+    id: 4,
+    nome: "Dorflex",
+    preco: 10.99,
+    imagem: "img/dorflex.png",
+    descricao: "Relaxante muscular para alívio rápido de dores.",
+    avaliacao: 4.9,
+    tempo: "15 mins"
+  },
+  { 
+    id: 5,
+    nome: "Paracetamol",
+    preco: 20.99,
+    imagem: "img/paracetamol.png",
+    descricao: "Analgésico e antitérmico tradicional.",
+    avaliacao: 4.5,
+    tempo: "20 mins"
+  },
+  { 
+    id: 6,
+    nome: "Ozempic 1mg",
+    preco: 999.99,
+    imagem: "img/ozempic.png",
+    descricao: "Medicamento utilizado no controle glicêmico.",
+    avaliacao: 5.0,
+    tempo: "35 mins"
+  }
+];
+
+/* 🔥 SALVANDO AUTOMATICAMENTE NO LOCALSTORAGE PARA A PAGE14 */
+localStorage.setItem("produtos", JSON.stringify(produtos));
+
+/* ------------------ RENDERIZAÇÃO ------------------ */
+const lista = document.getElementById("listaProdutos");
+
+function renderizar(listaRender) {
+  lista.innerHTML = "";
+
+  listaRender.forEach(prod => {
+    const item = document.createElement("div");
+    item.className = "produto";
+    item.onclick = () => {
+      window.location.href = `page14.html?id=${prod.id}`;
+    };
+
+    item.innerHTML = `
+      <img src="${prod.imagem}" alt="${prod.nome}">
+      <div>
         <h3>${prod.nome}</h3>
-        <p>R$${prod.preco.toFixed(2)}</p>
-        <button onclick="abrirProduto(${prod.id})">Ver mais</button>
-      `;
-      container.appendChild(div);
-    });
+        <p>R$ ${prod.preco.toFixed(2).replace('.',',')}</p>
+      </div>
+    `;
 
-    function abrirProduto(id) {
-      window.location.href = "page14.html?id=" + id;
-    }
-  </script>
+    lista.appendChild(item);
+  });
+}
+
+renderizar(produtos);
+
+/* ------------------ PESQUISA ------------------ */
+document.getElementById("search").addEventListener("input", (e) => {
+  const txt = e.target.value.toLowerCase();
+  const filtrado = produtos.filter(p => p.nome.toLowerCase().includes(txt));
+  renderizar(filtrado);
+});
+</script>
+
 
 </body>
 </html>

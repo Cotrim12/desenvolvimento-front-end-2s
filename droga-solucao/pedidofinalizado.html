@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pedido Finalizado</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+    body {
+        background: #0f0f0f;
+        color: white;
+        font-family: Arial;
+        padding: 20px;
+    }
+
+    .header {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 20px;
+    }
+
+    .header a {
+        color: #00b140;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .box {
+        background: #1a1a1a;
+        padding: 20px;
+        border-radius: 12px;
+        margin-bottom: 20px;
+    }
+
+    /* Avaliação */
+    #avaliacaoBox {
+        background: #222;
+        padding: 20px;
+        border-radius: 12px;
+        margin-bottom: 20px;
+        position: relative;
+    }
+
+    #closeAvaliacao {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        color: #ff6b6b;
+        font-size: 20px;
+        cursor: pointer;
+    }
+
+    .star {
+        font-size: 35px;
+        cursor: pointer;
+        color: #555;
+        transition: 0.2s;
+    }
+
+    .star.selected {
+        color: gold;
+    }
+
+    .tracking-box {
+        background: #111;
+        padding: 20px;
+        border-radius: 12px;
+        margin-top: 20px;
+    }
+
+    .btn-green {
+        background: #00b140;
+        color: black;
+        font-weight: bold;
+        border: none;
+        margin-top: 10px;
+    }
+</style>
+
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+    <a href="atendimento.html">Central de atendimento</a>
+</div>
+
+<h2>Pedido finalizado ✔</h2>
+
+<p>Seu pedido foi confirmado e está sendo separado! 🛍️</p>
+
+<!-- AVALIAÇÃO -->
+<div id="avaliacaoBox">
+    <span id="closeAvaliacao">✖</span>
+
+    <h4 class="mb-3">Avalie como foi seu atendimento</h4>
+
+    <div id="stars">
+        <span class="star" data-value="1">★</span>
+        <span class="star" data-value="2">★</span>
+        <span class="star" data-value="3">★</span>
+        <span class="star" data-value="4">★</span>
+        <span class="star" data-value="5">★</span>
+    </div>
+</div>
+
+<!-- RESUMO DO PEDIDO -->
+<div class="box">
+    <h4>Resumo do Pedido</h4>
+    <p><b>Pedido:</b> #DS-2025-001</p>
+    <p><b>Status:</b> Separando itens no estoque 📦</p>
+    <p><b>Previsão de entrega:</b> Hoje entre 20:00 e 21:00</p>
+</div>
+
+<!-- ENTREGA / RASTREIO -->
+<div class="tracking-box">
+    <h4>Entrega</h4>
+    <p><b>Entregador:</b> João Silva</p>
+    <p><b>Placa:</b> QWE-4F21</p>
+
+    <button class="btn btn-green w-100" onclick="rastrear()">Rastrear Pedido</button>
+</div>
+
+<script>
+/* --- FECHAR AVALIAÇÃO --- */
+document.getElementById("closeAvaliacao").onclick = function() {
+    document.getElementById("avaliacaoBox").style.display = "none";
+};
+
+/* --- AVALIAÇÃO DE ESTRELAS --- */
+document.querySelectorAll(".star").forEach(star => {
+    star.addEventListener("click", function() {
+        let value = this.getAttribute("data-value");
+        
+        document.querySelectorAll(".star").forEach(s => {
+            s.classList.remove("selected");
+        });
+
+        for (let i = 0; i < value; i++) {
+            document.querySelectorAll(".star")[i].classList.add("selected");
+        }
+
+        localStorage.setItem("avaliacao", value);
+    });
+});
+
+/* --- RASTREAMENTO --- */
+function rastrear() {
+    window.location.href = "rastreamento.html";
+}
+</script>
+
+</body>
+</html>
