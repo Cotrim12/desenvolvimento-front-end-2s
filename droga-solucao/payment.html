@@ -161,7 +161,39 @@
             return;
         }
 
-        alert("Pedido confirmado com pagamento via " + metodo.value.toUpperCase());
+        // ----------------------------
+        //  SALVAR PEDIDO NO HISTÓRICO
+        // ----------------------------
+        const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+        const produtos = JSON.parse(localStorage.getItem("produtos") || "[]");
+        const historico = JSON.parse(localStorage.getItem("historico") || "[]");
+
+        // Monta pedido completo
+        const pedido = {
+            id: Date.now(),
+            data: new Date().toLocaleString(),
+            itens: cart.map(c => {
+                const p = produtos.find(x => x.id === c.id);
+                return {
+                    nome: p.nome,
+                    imagem: p.imagem,
+                    qtd: c.qtd,
+                    preco: p.preco
+                }
+            }),
+            metodo: metodo.value
+        };
+
+        // Salva no histórico
+        historico.push(pedido);
+        localStorage.setItem("historico", JSON.stringify(historico));
+
+        // Limpa carrinho
+        localStorage.removeItem("cart");
+
+        // ----------------------------
+        // REDIRECIONA SEM ATRASO
+        // ----------------------------
         window.location.href = "pedidofinalizado.html";
     }
 </script>
