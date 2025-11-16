@@ -1,98 +1,197 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>Produto - Droga Solução</title>
+
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
 <style>
-  body{background:#0f0f0f;color:#fff;font-family:Inter,Arial;margin:0;padding:20px}
-  .img-wrap{width:100%;max-width:300px;margin:0 auto 10px;display:block}
-  .price{color:#00b140;font-weight:700;font-size:20px}
-  .qty-btn{width:42px;height:42px;border-radius:8px;background:#1a1a1a;border:none;color:#fff}
-  .fav{font-size:20px;color:#999;cursor:pointer}
-  .fav.active{color:#ff6b6b}
+  body{
+    background:#0f0f0f;
+    color:#fff;
+    font-family:Arial, sans-serif;
+    margin:0;
+    padding:20px;
+  }
+
+  /* Header com ícone de atendimento */
+  .header {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 5px;
+    margin-bottom:10px;
+  }
+
+  .att-icon {
+    font-size:24px;
+    cursor:pointer;
+    text-decoration:none;
+    color:white;
+  }
+
+  .img-wrap{
+    width:100%;
+    max-width:330px;
+    margin:0 auto;
+    display:block;
+  }
+
+  .price{ color:#00b140; font-weight:700; font-size:22px; }
+
+  .qty-btn{
+    width:42px;
+    height:42px;
+    border-radius:8px;
+    background:#1a1a1a;
+    border:none;
+    color:#fff;
+    font-size:22px;
+  }
+
+  .fav{
+    font-size:22px;
+    cursor:pointer;
+    color:#999;
+  }
+  .fav.active{ color:#ff6b6b; }
 </style>
 </head>
+
 <body>
-  <a href="page13.html" style="color:#ccc;text-decoration:none">← Voltar</a>
-  <div class="text-center mt-3">
-    <img id="imgProd" src="" class="img-wrap" alt="produto" style="background:#0b0b0b;padding:12px;border-radius:12px">
-    <div class="d-flex justify-content-between align-items-center mb-2">
-      <h4 id="nomeProd"></h4>
-      <span id="favBtn" class="fav">♡</span>
-    </div>
-    <div id="av" class="text-muted small mb-2"></div>
-    <p id="desc" class="text-secondary small"></p>
 
-    <div class="d-flex justify-content-center align-items-center gap-2 my-3">
-      <button id="menos" class="qty-btn">−</button>
-      <div id="qtd" style="min-width:30px;text-align:center">1</div>
-      <button id="mais" class="qty-btn">+</button>
-    </div>
+<!-- HEADER -->
+<div class="header">
+  <a href="page13.html" style="color:#ccc; font-size:22px; text-decoration:none;">←</a>
 
-    <div class="price mb-3" id="preco">R$0,00</div>
+  <a href="atendimento.html" class="att-icon">💬</a>
+</div>
 
-    <div class="d-grid gap-2" style="max-width:320px;margin:0 auto">
-      <button id="addCart" class="btn btn-success">Adicionar ao carrinho</button>
-      <button id="buyNow" class="btn btn-outline-light">Comprar agora</button>
-    </div>
+<div class="text-center mt-3">
+
+  <img id="imgProd" src="" class="img-wrap" alt="produto" style="background:#0b0b0b;padding:12px;border-radius:12px">
+
+  <div class="d-flex justify-content-between align-items-center mt-3 mb-2 px-2">
+    <h4 id="nomeProd"></h4>
+    <span id="favBtn" class="fav">♡</span>
   </div>
 
+  <div id="av" class="text-muted small mb-2"></div>
+  <p id="desc" class="text-secondary small px-2"></p>
+
+  <!-- Quantidade -->
+  <div class="d-flex justify-content-center align-items-center gap-2 my-3">
+    <button id="menos" class="qty-btn">−</button>
+    <div id="qtd" style="min-width:30px;text-align:center;font-size:20px;">1</div>
+    <button id="mais" class="qty-btn">+</button>
+  </div>
+
+  <div class="price mb-3" id="preco">R$0,00</div>
+
+  <div class="d-grid gap-2" style="max-width:300px;margin:0 auto">
+    <button id="addCart" class="btn btn-success">Adicionar ao carrinho</button>
+    <button id="buyNow" class="btn btn-outline-light">Comprar agora</button>
+  </div>
+
+</div>
+
+
 <script>
-  function formatPrice(n){ return 'R$' + n.toFixed(2).replace('.',','); }
-  const params = new URLSearchParams(window.location.search);
-  const id = Number(params.get('id'));
-  const produtos = JSON.parse(localStorage.getItem('produtos')||'[]');
-  const prod = produtos.find(p=>p.id===id);
-  const favKey = 'favoritos';
-  if(!prod){ document.body.innerHTML = '<div style="padding:20px;color:#fff">Produto não encontrado. <a href="page13.html">Voltar</a></div>'; throw 'produto not found'; }
+function formatPrice(n){
+  return 'R$ ' + n.toFixed(2).replace('.',',');
+}
 
-  document.getElementById('imgProd').src = prod.imagem;
-  document.getElementById('nomeProd').innerText = prod.nome;
-  document.getElementById('desc').innerText = prod.descricao || '';
-  document.getElementById('av').innerText = `⭐ ${prod.avaliacao || 4.5} • ${prod.tempo || '20 mins'}`;
-  document.getElementById('preco').innerText = formatPrice(prod.preco);
+const params = new URLSearchParams(window.location.search);
+const id = Number(params.get('id'));
 
-  let qtd = 1;
-  document.getElementById('qtd').innerText = qtd;
-  document.getElementById('mais').addEventListener('click', ()=>{ qtd++; document.getElementById('qtd').innerText = qtd; });
-  document.getElementById('menos').addEventListener('click', ()=>{ if(qtd>1) qtd--; document.getElementById('qtd').innerText = qtd; });
+const produtos = JSON.parse(localStorage.getItem('produtos') || '[]');
+const prod = produtos.find(p => p.id === id);
 
-  // favoritos
-  function getFavs(){ return JSON.parse(localStorage.getItem(favKey) || '[]'); }
-  function setFavs(a){ localStorage.setItem(favKey, JSON.stringify(a)); }
-  const favBtn = document.getElementById('favBtn');
-  function refreshFav(){ const favs = getFavs(); favBtn.classList.toggle('active', favs.includes(prod.id)); favBtn.innerText = favs.includes(prod.id)? '♥' : '♡'; }
-  favBtn.addEventListener('click', ()=>{ const favs = getFavs(); if(favs.includes(prod.id)) { setFavs(favs.filter(x=>x!==prod.id)); } else { favs.push(prod.id); setFavs(favs); } refreshFav(); });
-  refreshFav();
+if(!prod){
+  document.body.innerHTML = "<div style='padding:20px;'>Produto não encontrado.<br><br><a href='page13.html' style='color:#0f0;'>Voltar</a></div>";
+  throw "Produto não encontrado";
+}
 
-  // cart (localStorage 'cart' as array items {id, qtd})
-  function addToCart(){
-    const cart = JSON.parse(localStorage.getItem('cart')||'[]');
-    const found = cart.find(c=>c.id===prod.id);
-    if(found) found.qtd += qtd; else cart.push({id:prod.id,qtd});
-    localStorage.setItem('cart', JSON.stringify(cart));
-    alert('Adicionado ao carrinho');
+/* Preenche dados */
+document.getElementById("imgProd").src = prod.imagem;
+document.getElementById("nomeProd").innerText = prod.nome;
+document.getElementById("desc").innerText = prod.descricao || "";
+document.getElementById("av").innerText = `⭐ ${prod.avaliacao || 4.5} • ${prod.tempo || "20 mins"}`;
+document.getElementById("preco").innerText = formatPrice(prod.preco);
+
+/* Quantidade */
+let qtd = 1;
+document.getElementById("qtd").innerText = qtd;
+
+document.getElementById("mais").onclick = () => {
+  qtd++;
+  document.getElementById("qtd").innerText = qtd;
+};
+
+document.getElementById("menos").onclick = () => {
+  if(qtd > 1){ qtd--; }
+  document.getElementById("qtd").innerText = qtd;
+};
+
+/* Favoritos */
+function getFavs(){ return JSON.parse(localStorage.getItem("favoritos") || "[]"); }
+function setFavs(a){ localStorage.setItem("favoritos", JSON.stringify(a)); }
+
+const favBtn = document.getElementById("favBtn");
+
+function refreshFav(){
+  const favs = getFavs();
+  const active = favs.includes(prod.id);
+
+  favBtn.classList.toggle("active", active);
+  favBtn.innerText = active ? "♥" : "♡";
+}
+
+favBtn.onclick = () => {
+  const favs = getFavs();
+  if(favs.includes(prod.id)){
+    setFavs(favs.filter(x => x !== prod.id));
+  } else {
+    favs.push(prod.id);
+    setFavs(favs);
   }
-  document.getElementById('addCart').addEventListener('click', addToCart);
+  refreshFav();
+};
 
-  // buy now: simulate sale -> increment sales count and reduce stock if available
-  document.getElementById('buyNow').addEventListener('click', ()=>{
-    const sales = JSON.parse(localStorage.getItem('sales')||'{}');
-    const produtosArr = JSON.parse(localStorage.getItem('produtos')||'[]');
-    const pIndex = produtosArr.findIndex(pp=>pp.id===prod.id);
-    if(pIndex === -1){ alert('Produto não disponível'); return; }
-    if(produtosArr[pIndex].stock === undefined || produtosArr[pIndex].stock >= qtd){
-      produtosArr[pIndex].stock = (produtosArr[pIndex].stock || 999) - qtd;
-      localStorage.setItem('produtos', JSON.stringify(produtosArr));
-      sales[prod.id] = (sales[prod.id] || 0) + qtd;
-      localStorage.setItem('sales', JSON.stringify(sales));
-      alert('Compra efetuada com sucesso!');
-      window.location.href = 'page13.html';
-    } else {
-      alert('Estoque insuficiente.');
-    }
-  });
+refreshFav();
+
+/* Adicionar ao carrinho */
+document.getElementById("addCart").onclick = () => {
+  const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+
+  const found = cart.find(i => i.id === prod.id);
+  if(found){
+    found.qtd += qtd;
+  } else {
+    cart.push({id: prod.id, qtd});
+  }
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+  alert("Adicionado ao carrinho!");
+};
+
+/* Comprar agora → direto para frete.html */
+document.getElementById("buyNow").onclick = () => {
+  
+  // adiciona item no carrinho para continuar fluxo normal
+  const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+  const found = cart.find(i => i.id === prod.id);
+
+  if(found) found.qtd += qtd;
+  else cart.push({id: prod.id, qtd});
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+
+  window.location.href = "frete.html";
+};
 </script>
+
 </body>
 </html>

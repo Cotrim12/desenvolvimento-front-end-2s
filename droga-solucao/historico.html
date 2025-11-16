@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Histórico de Compras</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #000;
+            color: #00ff88;
+        }
+
+        /* ----- BOTÃO VOLTAR ----- */
+        .btn-voltar {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            font-size: 32px;
+            color: #00ff88;
+            cursor: pointer;
+            text-decoration: none;
+            background: #111;
+            padding: 8px 14px;
+            border-radius: 10px;
+            border: 1px solid #00ff88;
+            box-shadow: 0 0 10px #00ff88;
+            transition: .2s;
+        }
+
+        .btn-voltar:hover {
+            background: #00ff88;
+            color: #000;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #00ff88;
+        }
+
+        .filtros {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        select {
+            padding: 10px;
+            font-size: 16px;
+            background: #111;
+            color: #00ff88;
+            border: 1px solid #00ff88;
+            border-radius: 6px;
+        }
+
+        #listaPedidos {
+            background: #111;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #00ff88;
+        }
+
+        .pedido-item {
+            padding: 12px;
+            border-bottom: 1px solid #00ff88;
+        }
+
+        .pedido-item:last-child {
+            border-bottom: none;
+        }
+    </style>
+
+</head>
+<body>
+
+    <!-- BOTÃO VOLTAR -->
+    <a class="btn-voltar" href="page13.html">❮</a>
+
+    <h1>Histórico de Compras</h1>
+
+    <div class="filtros">
+        <select id="filtroTempo">
+            <option value="ultimo">Último pedido</option>
+            <option value="todos">Todos</option>
+            <option value="24h">Últimas 24 horas</option>
+            <option value="1mes">Último mês</option>
+            <option value="3meses">Últimos 3 meses</option>
+        </select>
+    </div>
+
+    <div id="listaPedidos"></div>
+
+<script>
+    function carregarPedidos() {
+        return JSON.parse(localStorage.getItem("pedidos")) || [];
+    }
+
+    function exibirPedidos(lista) {
+        const container = document.getElementById("listaPedidos");
+        container.innerHTML = "";
+
+        if (lista.length === 0) {
+            container.innerHTML = "<p>Nenhum pedido encontrado.</p>";
+            return;
+        }
+
+        lista.forEach(pedido => {
+            const div = document.createElement("div");
+            div.classList.add("pedido-item");
+
+            div.innerHTML = `
+                <p><strong>ID do Pedido:</strong> ${pedido.id}</p>
+                <p><strong>Data:</strong> ${new Date(pedido.data).toLocaleString()}</p>
+                <p><strong>Status:</strong> ${pedido.status}</p>
+            `;
+
+            container.appendChild(div);
+        });
+    }
+
+    function filtrarPedidos() {
+        const filtro = document.getElementById("filtroTempo").value;
+        const pedidos = carregarPedidos();
+        const agora = new Date();
+
+        let filtrados = pedidos;
+
+        if (filtro === "ultimo") {
+            filtrados = pedidos.length > 0 ? [pedidos[pedidos.length - 1]] : [];
+        }
+
+        if (filtro === "todos") {
+            filtrados = pedidos;
+        }
+
+        if (filtro === "24h") {
+            filtrados = pedidos.filter(p =>
+                (agora - new Date(p.data)) <= 24 * 60 * 60 * 1000
+            );
+        }
+
+        if (filtro === "1mes") {
+            filtrados = pedidos.filter(p =>
+                (agora - new Date(p.data)) <= 30 * 24 * 60 * 60 * 1000
+            );
+        }
+
+        if (filtro === "3meses") {
+            filtrados = pedidos.filter(p =>
+                (agora - new Date(p.data)) <= 90 * 24 * 60 * 60 * 1000
+            );
+        }
+
+        exibirPedidos(filtrados);
+    }
+
+    document.getElementById("filtroTempo").addEventListener("change", filtrarPedidos);
+
+    document.getElementById("filtroTempo").value = "ultimo";
+    filtrarPedidos();
+</script>
+
+</body>
+</html>

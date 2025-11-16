@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perfil - Droga Solução</title>
+
+  <style>
+    body {
+      background: #0f0f0f;
+      color: white;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 420px;
+      margin: auto;
+    }
+
+    .titulo {
+      font-size: 24px;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 20px;
+      color: #00ff88;
+    }
+
+    .perfil-foto {
+      display: block;
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 0 auto;
+      border: 3px solid #00ff88;
+    }
+
+    .secao {
+      background: #1a1a1a;
+      padding: 15px;
+      border-radius: 12px;
+      margin-top: 25px;
+    }
+
+    .secao h2 {
+      margin: 0 0 10px 0;
+      font-size: 20px;
+      color: #00ff88;
+    }
+
+    p {
+      margin: 5px 0;
+      color: #ccc;
+      font-size: 16px;
+    }
+
+    .btn-editar {
+      margin-top: 12px;
+      background: #00ff88;
+      color: #000;
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .btn-editar:hover {
+      background: #00cc6a;
+    }
+
+    .voltar {
+      margin-top: 25px;
+      text-align: center;
+    }
+
+    .voltar a {
+      color: #00ff88;
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .voltar a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="titulo">Meu Perfil</div>
+
+  <!-- Foto -->
+  <img src="img/profile.png" alt="Foto de perfil" class="perfil-foto">
+
+  <!-- Dados pessoais -->
+  <div class="secao">
+    <h2>Dados Pessoais</h2>
+    <p><strong>Nome:</strong> João da Silva</p>
+    <p><strong>Email:</strong> joaosilva@example.com</p>
+    <p><strong>Telefone:</strong> (11) 99999-9999</p>
+  </div>
+
+  <!-- Endereço -->
+  <div class="secao">
+    <h2>Endereço</h2>
+    <p>Rua Exemplo, nº 123</p>
+    <p>Centro - São Paulo/SP</p>
+
+    <button class="btn-editar">Editar endereço</button>
+  </div>
+
+  <!-- Voltar -->
+  <div class="voltar">
+    <a href="page13.html">← Voltar</a>
+  </div>
+
+</div>
+
+</body>
+</html>

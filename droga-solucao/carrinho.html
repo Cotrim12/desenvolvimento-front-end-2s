@@ -13,11 +13,24 @@
   .qty-btn { width:32px; height:32px; border:none; background:#00b140; color:#000; font-weight:bold; border-radius:6px; }
   .remove-btn { color:#ff6b6b; cursor:pointer; font-size:14px; }
   .total-box { background:#111; padding:15px; border-radius:12px; margin-top:20px; }
+
+  /* Alerta bonito */
+  .alertBox {
+    background: #ff3b3b;
+    padding: 12px;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 15px;
+    display: none;
+  }
 </style>
 </head>
 <body>
 
 <h2>Carrinho 🛒</h2>
+
+<div id="alerta" class="alertBox">⚠ Seu carrinho está vazio!</div>
 
 <div id="cartContainer"></div>
 
@@ -102,7 +115,21 @@ function remover(id){
   carregarCarrinho();
 }
 
+/* -------------------- BLOQUEIO DE CARRINHO VAZIO -------------------- */
 function finalizar(){
+  const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+
+  if(cart.length === 0){
+    const alerta = document.getElementById("alerta");
+    alerta.style.display = "block";
+
+    setTimeout(() => {
+      alerta.style.display = "none";
+    }, 3000);
+
+    return; // Impede de ir para payment.html
+  }
+
   window.location.href = "payment.html";
 }
 

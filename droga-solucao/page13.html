@@ -31,6 +31,29 @@
       color: #00b140;
     }
 
+    /* Ícones do header */
+    .icons {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      font-size: 24px;
+    }
+
+    .icons span, .icons a {
+      cursor: pointer;
+      color: white;
+      text-decoration: none;
+    }
+
+    /* Ícone de perfil */
+    .profile-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      object-fit: cover;
+    }
+
     .search-container {
       padding: 15px;
     }
@@ -69,7 +92,6 @@
       object-fit: cover;
     }
 
-    /* Setas */
     .arrow {
       position: absolute;
       top: 50%;
@@ -120,6 +142,32 @@
       margin: 5px 0 0 0;
       color: #b3b3b3;
     }
+
+    /* Ícone flutuante atendimento */
+    #btnAtendimento {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      width: 65px;
+      height: 65px;
+      background: #00ff88;
+      color: #000;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 32px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 0 12px #00ff88;
+      transition: 0.3s;
+      z-index: 999;
+    }
+
+    #btnAtendimento:hover {
+      transform: scale(1.1);
+      background: #00cc6a;
+    }
   </style>
 </head>
 <body>
@@ -127,7 +175,14 @@
   <!-- HEADER -->
   <div class="header">
     <span class="logo">Droga Solução</span>
-    <a href="carrinho.html" style="color:white; text-decoration:none; font-size:20px;">🛒</a>
+
+    <div class="icons">
+      <span onclick="window.location.href='favoritos.html'">⭐</span>
+      <a href="carrinho.html">🛒</a>
+
+      <!-- ÍCONE DE PERFIL -->
+      <img src="img/profile.png" class="profile-icon" onclick="window.location.href='profile.html'">
+    </div>
   </div>
 
   <!-- PESQUISA -->
@@ -150,7 +205,7 @@
   <!-- LISTA DE PRODUTOS -->
   <div class="produtos-container" id="listaProdutos"></div>
 
- <script>
+<script>
 /* ------------------ CARROSSEL ------------------ */
 let slideIndex = 0;
 const carousel = document.getElementById("carousel");
@@ -172,69 +227,20 @@ function updateCarousel() {
 
 setInterval(nextSlide, 5000);
 
-/* ------------------ PRODUTOS (FORMATO CORRIGIDO!) ------------------ */
-
+/* ------------------ PRODUTOS COM DESCRIÇÃO ------------------ */
 const produtos = [
-  { 
-    id: 1,
-    nome: "Camisinha SKYN",
-    preco: 22.90,
-    imagem: "img/skyn.png",
-    descricao: "Preservativo SKYN original para proteção e conforto.",
-    avaliacao: 4.7,
-    tempo: "20 mins"
-  },
-  { 
-    id: 2,
-    nome: "Gardenal",
-    preco: 19.90,
-    imagem: "img/gardenal.png",
-    descricao: "Medicamento anticonvulsivante de uso controlado.",
-    avaliacao: 4.8,
-    tempo: "20 mins"
-  },
-  { 
-    id: 3,
-    nome: "Ibuprofeno",
-    preco: 35.50,
-    imagem: "img/ibuprofeno.png",
-    descricao: "Anti-inflamatório para dores e febre.",
-    avaliacao: 4.6,
-    tempo: "15 mins"
-  },
-  { 
-    id: 4,
-    nome: "Dorflex",
-    preco: 10.99,
-    imagem: "img/dorflex.png",
-    descricao: "Relaxante muscular para alívio rápido de dores.",
-    avaliacao: 4.9,
-    tempo: "15 mins"
-  },
-  { 
-    id: 5,
-    nome: "Paracetamol",
-    preco: 20.99,
-    imagem: "img/paracetamol.png",
-    descricao: "Analgésico e antitérmico tradicional.",
-    avaliacao: 4.5,
-    tempo: "20 mins"
-  },
-  { 
-    id: 6,
-    nome: "Ozempic 1mg",
-    preco: 999.99,
-    imagem: "img/ozempic.png",
-    descricao: "Medicamento utilizado no controle glicêmico.",
-    avaliacao: 5.0,
-    tempo: "35 mins"
-  }
+  { id: 1, nome: "Camisinha SKYN", preco: 22.90, imagem: "img/skyn.png", descricao: "Preservativo de alta sensibilidade e resistência." },
+  { id: 2, nome: "Gardenal", preco: 19.90, imagem: "img/gardenal.png", descricao: "Medicamento para controle de convulsões (uso controlado)." },
+  { id: 3, nome: "Ibuprofeno", preco: 35.50, imagem: "img/ibuprofeno.png", descricao: "Anti-inflamatório e analgésico para dores e febre." },
+  { id: 4, nome: "Dorflex", preco: 10.99, imagem: "img/dorflex.png", descricao: "Relaxante muscular com ação analgésica imediata." },
+  { id: 5, nome: "Paracetamol", preco: 20.99, imagem: "img/paracetamol.png", descricao: "Analgésico e antitérmico seguro e eficaz." },
+  { id: 6, nome: "Ozempic 1mg", preco: 999.99, imagem: "img/ozempic.png", descricao: "Medicamento para controle glicêmico (uso sob prescrição)." }
 ];
 
-/* 🔥 SALVANDO AUTOMATICAMENTE NO LOCALSTORAGE PARA A PAGE14 */
+// salvar no localStorage
 localStorage.setItem("produtos", JSON.stringify(produtos));
 
-/* ------------------ RENDERIZAÇÃO ------------------ */
+/* ------------------ RENDERIZA PRODUTOS ------------------ */
 const lista = document.getElementById("listaProdutos");
 
 function renderizar(listaRender) {
@@ -243,15 +249,14 @@ function renderizar(listaRender) {
   listaRender.forEach(prod => {
     const item = document.createElement("div");
     item.className = "produto";
-    item.onclick = () => {
-      window.location.href = `page14.html?id=${prod.id}`;
-    };
+    item.onclick = () => window.location.href = `page14.html?id=${prod.id}`;
 
     item.innerHTML = `
       <img src="${prod.imagem}" alt="${prod.nome}">
       <div>
         <h3>${prod.nome}</h3>
-        <p>R$ ${prod.preco.toFixed(2).replace('.',',')}</p>
+        <p>R$ ${prod.preco.toFixed(2).replace('.', ',')}</p>
+        <p style="font-size: 13px; color: #888;">${prod.descricao}</p>
       </div>
     `;
 
@@ -264,11 +269,18 @@ renderizar(produtos);
 /* ------------------ PESQUISA ------------------ */
 document.getElementById("search").addEventListener("input", (e) => {
   const txt = e.target.value.toLowerCase();
-  const filtrado = produtos.filter(p => p.nome.toLowerCase().includes(txt));
+  const filtrado = produtos.filter(p => 
+    p.nome.toLowerCase().includes(txt) ||
+    p.descricao.toLowerCase().includes(txt)
+  );
   renderizar(filtrado);
 });
 </script>
 
+<!-- BOTÃO DE ATENDIMENTO -->
+<div id="btnAtendimento" onclick="window.location.href='atendimento.html'">
+  ☎
+</div>
 
 </body>
 </html>

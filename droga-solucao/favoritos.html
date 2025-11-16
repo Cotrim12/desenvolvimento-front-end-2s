@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Favoritos - Droga Solução</title>
+
+<style>
+  body {
+    background: #0f0f0f;
+    color: white;
+    margin: 0;
+    font-family: Arial;
+    padding: 20px;
+  }
+
+  h2 {
+    color: #00b140;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .produto {
+    background: #1a1a1a;
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+  }
+
+  .produto img {
+    width: 90px;
+    height: 90px;
+    margin-right: 15px;
+    background: white;
+    border-radius: 8px;
+    object-fit: contain;
+  }
+
+  .produto button {
+    background: #ff4444;
+    border: none;
+    padding: 10px 15px;
+    color: white;
+    border-radius: 8px;
+    margin-left: auto;
+    cursor: pointer;
+  }
+
+  .voltar {
+    display: block;
+    margin-bottom: 15px;
+    color: #00b140;
+    text-decoration: none;
+  }
+</style>
+
+</head>
+<body>
+
+<a class="voltar" href="page13.html">← Voltar</a>
+<h2>Favoritos ⭐</h2>
+
+<div id="listaFavs"></div>
+
+<script>
+function carregarFavoritos() {
+  const produtos = JSON.parse(localStorage.getItem("produtos") || "[]");
+  const favs = JSON.parse(localStorage.getItem("favoritos") || "[]");
+  const lista = document.getElementById("listaFavs");
+
+  lista.innerHTML = "";
+
+  if (favs.length === 0) {
+    lista.innerHTML = "<p style='text-align:center;color:#bbb'>Nenhum item favoritado.</p>";
+    return;
+  }
+
+  favs.forEach(id => {
+    const p = produtos.find(x => x.id === id);
+    if (!p) return;
+
+    const div = document.createElement("div");
+    div.className = "produto";
+    div.innerHTML = `
+      <img src="${p.imagem}">
+      <div>
+        <h3>${p.nome}</h3>
+        <p>R$ ${p.preco.toFixed(2).replace('.', ',')}</p>
+      </div>
+      <button onclick="removeFav(${id})">Remover</button>
+    `;
+
+    div.onclick = (e) => {
+      if (e.target.tagName !== "BUTTON")
+        window.location.href = "page14.html?id=" + id;
+    };
+
+    lista.appendChild(div);
+  });
+}
+
+function removeFav(id) {
+  let favs = JSON.parse(localStorage.getItem("favoritos") || "[]");
+  favs = favs.filter(x => x !== id);
+  localStorage.setItem("favoritos", JSON.stringify(favs));
+  carregarFavoritos();
+}
+
+carregarFavoritos();
+</script>
+
+</body>
+</html>
