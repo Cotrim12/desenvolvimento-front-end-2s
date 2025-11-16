@@ -122,6 +122,14 @@
       display: flex;
       align-items: center;
       cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .produto:hover {
+      background: #252525;
+      transform: translateY(-8px);
+      box-shadow: 0 8px 20px rgba(0, 177, 64, 0.3);
+      border: 1px solid #00b140;
     }
 
     .produto img {
@@ -131,16 +139,31 @@
       margin-right: 15px;
       background: #fff;
       border-radius: 8px;
+      transition: transform 0.3s ease;
+    }
+
+    .produto:hover img {
+      transform: scale(1.1) rotate(2deg);
     }
 
     .produto h3 {
       margin: 0;
       font-size: 18px;
+      transition: color 0.3s ease;
+    }
+
+    .produto:hover h3 {
+      color: #00b140;
     }
 
     .produto p {
       margin: 5px 0 0 0;
       color: #b3b3b3;
+      transition: color 0.3s ease;
+    }
+
+    .produto:hover p {
+      color: #ccc;
     }
 
     /* Ícone flutuante atendimento */
