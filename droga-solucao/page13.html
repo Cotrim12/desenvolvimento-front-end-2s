@@ -231,11 +231,26 @@ setInterval(nextSlide, 5000);
 /* ------------------ PRODUTOS COM DESCRIÇÃO ------------------ */
 const produtos = [
   { id: 1, nome: "Camisinha SKYN", preco: 22.90, imagem: "img/skyn.png", descricao: "Preservativo de alta sensibilidade e resistência." },
-  { id: 2, nome: "Gardenal", preco: 19.90, imagem: "img/gardenal.png", descricao: "Medicamento para controle de convulsões (uso controlado)." },
-  { id: 3, nome: "Ibuprofeno", preco: 35.50, imagem: "img/ibuprofeno.png", descricao: "Anti-inflamatório e analgésico para dores e febre." },
-  { id: 4, nome: "Dorflex", preco: 10.99, imagem: "img/dorflex.png", descricao: "Relaxante muscular com ação analgésica imediata." },
-  { id: 5, nome: "Paracetamol", preco: 20.99, imagem: "img/paracetamol.png", descricao: "Analgésico e antitérmico seguro e eficaz." },
-  { id: 6, nome: "Ozempic 1mg", preco: 999.99, imagem: "img/ozempic.png", descricao: "Medicamento para controle glicêmico (uso sob prescrição)." }
+  { id: 2, nome: "Gardenal 100mg 20 comprimidos", preco: 19.90, imagem: "img/gardenal.png", descricao: "Medicamento para controle de convulsões (uso controlado)." },
+  { id: 3, nome: "Ibuprofeno 600mg 12 comprimidos", preco: 35.50, imagem: "img/ibuprofeno.png", descricao: "Anti-inflamatório e analgésico para dores e febre." },
+  { id: 4, nome: "Dorflex 1g 10 comprimidos", preco: 10.99, imagem: "img/dorflex.png", descricao: "Relaxante muscular com ação analgésica imediata." },
+  { id: 5, nome: "Paracetamol 200mg/ml Solução oral 15ml", preco: 20.99, imagem: "img/paracetamol.png", descricao: "Analgésico e antitérmico seguro e eficaz." },
+  { id: 6, nome: "Ozempic 1mg", preco: 999.99, imagem: "img/ozempic.png", descricao: "Medicamento para controle glicêmico (uso sob prescrição)." },
+  { id: 7, nome: "Vitamina C + Zinco efervescente", preco: 46.99, imagem: "img/vitaminac.png", descricao: "Suplemento alimentar em comprimidos efervescentes, formulado com 1g de Vitamina C e 10mg de Zinco, desenvolvido para adultos e crianças a partir dos 9 anos. Seu objetivo principal é fortalecer o sistema imunológico, auxiliando na otimização do funcionamento imunológico, na formação do colágeno, na proteção contra radicais livres e na absorção de ferro dos alimentos." },
+  { id: 8, nome: "Amoxilina Tri-Hidratada 875mg + Clavulanato de Potássio 125mg 14 comprimidos ", preco: 53.29, imagem: "img/amoxilina.png", descricao: "Antibiótico usado em adultos e crianças indicado para tratamento de infecções em diferentes partes do corpo que são causadas por determinados tipos de bactérias." },
+  { id: 9, nome: "Creme Hidratante Corporal para pele seca 450g ", preco: 65.47, imagem: "img/creme.png", descricao: " Hidratante corporal indicado para peles extremamente secas e sensíveis." },
+  { id: 10, nome: "Tadalafila 20mg", preco: 16.23, imagem: "img/tadalafila.png", descricao: "Medicamento indicado para disfunção erétil." },
+  { id: 11, nome: "Loratadina 10mg", preco: 10.99, imagem: "img/loratadina.png", descricao: " indicado para o alívio dos sintomas associados com a rinite alérgica, como: coceira nasal, nariz escorrendo (coriza), espirros, ardor e coceira nos olhos." },
+  { id: 12, nome: "Enxaguante Bucal 1,5L", preco: 69.99, imagem: "img/enxaguante.png", descricao: "É um enxaguante antisséptico bucal com álcool, indicado para a eliminação de germes que causam placa bacteriana, mau hálito e gengivite." },
+  { id: 13, nome: "Creme Dental Anticárie 2 unidades", preco: 37.89, imagem: "img/cremedental.png", descricao: "Oferece proteção anticárie, fortalecendo os dentes e ajuda a combater o mau hálito." },
+  { id: 14, nome: "Shampoo Anticaspa 400ml", preco: 38.70, imagem: "img/shampoo.png", descricao: "Shampoo anticaspa ideal para limpar e purificar os cabelos e o couro cabeludo dos homens, público mais propenso a desenvolver caspa." },
+  { id: 15, nome: "Omega 3 1000mg", preco: 22.29, imagem: "img/omega.png", descricao: "Suplemento alimentar em cápsulas à base de Ômega 3 que auxilia na manutenção de níveis saudáveis de triglicérides e no sistema imunológico. " },
+  { id: 16, nome: "Whey Protein Mousse de maracujá 1KG", preco: 109.89, imagem: "img/whey.png", descricao: "Suplemento tem como principal objetivo fornecer proteínas de alto valor biológico que poderão ser usadas no trabalho de anabolismo muscular, manutenção do tecido muscular ou recuperação das fibras de praticantes de atividade física em geral." },
+  { id: 17, nome: "Creatina monohidratada 150g", preco: 45.29, imagem: "img/creatina.png", descricao: " Suplemento alimentar proveniente de aminoácidos, na forma monohidratada para promover mais energia muscular." },
+  { id: 18, nome: "Fórmula infantil Ninho 1 ano 800g", preco: 53.29, imagem: "img/ninho.png", descricao: " Fórmula infantil especialmente desenvolvida para crianças da primeira infância, com uma composição específica de fibras, vitaminas e minerais." },
+  { id: 19, nome: "Lápis de olho Marrom quente", preco: 18.29, imagem: "img/lapis.png", descricao: "O Lápis tem fórmula vegana e livre de parabenos, o lápis tem secagem rápida, é resistente à água e não transfere ou borra! Testado oftalmologicamente." },
+  { id: 20, nome: "Corretivo Liquido 10ml", preco: 29.46, imagem: "img/corretivo.png", descricao: "É um corretivo líquido que oferece cobertura inteligente e aparência de pele revigorada." },
+  { id: 20, nome: "Protetor Solar Corporal FPS 60 40ml", preco: 70.00, imagem: "img/protetor.png", descricao: "É um protetor solar com FPS 60 que possui uma textura ultraleve de base aquosa com rápida absorção e toque seco." }
 ];
 
 // salvar no localStorage
